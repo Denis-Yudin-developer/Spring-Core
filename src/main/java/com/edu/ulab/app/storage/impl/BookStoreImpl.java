@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.webjars.NotFoundException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -23,12 +24,14 @@ public class BookStoreImpl implements BookStore {
 
     @Override
     public Book create(Book book) {
-        Book createdBook = books.put(book.getId(), book);
+        books.put(book.getId(), book);
+        Book createdBook = books.get(book.getId());
+        log.info("Created book: {}", createdBook);
         Long userId = createdBook.getUserId();
         if (userId != null){
-            addUserToBook(userId, book);
+            addUserToBook(userId, createdBook);
         }
-        return books.get(book.getId());
+        return createdBook;
     }
 
     @Override
@@ -57,7 +60,8 @@ public class BookStoreImpl implements BookStore {
     private void addUserToBook(Long userId, Book book){
         userStore.getById(userId)
                 .ifPresentOrElse(user -> {
-                    var userBooks = user.getBooks();
+                    List<Book> userBooks = userStore.getAllBooks(user.getId());
+                    log.info("Got user books: {}", userBooks);
                     userBooks.add(book);
                     user.setBooks(userBooks);
                 }, () -> {

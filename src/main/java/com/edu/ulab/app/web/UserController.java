@@ -58,8 +58,7 @@ public class UserController {
             responses = {
                     @ApiResponse(description = "User book",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = UserBookResponse.class)))
-            })
+                                    schema = @Schema(implementation = UserBookResponse.class)))})
     public UserBookResponse getUserWithBooks(@PathVariable Long userId) {
         UserBookResponse response = userDataFacade.getUserWithBooks(userId);
         log.info("Response with user and his books: {}", response);

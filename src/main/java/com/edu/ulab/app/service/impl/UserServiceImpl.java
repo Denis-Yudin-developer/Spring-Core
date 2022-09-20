@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
         log.info("Got user create request: {}", userDto);
         // сгенерировать идентификатор
         Long id = GeneratorUtils.nextID();
+        log.info("Generated id: {}", id);
         userDto.setId(id);
         User toCreate = userMapper.userDtoToUserEntity(userDto);
         // создать пользователя

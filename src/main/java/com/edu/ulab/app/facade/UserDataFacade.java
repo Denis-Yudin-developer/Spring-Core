@@ -60,7 +60,10 @@ public class UserDataFacade {
                 .booksIdList(bookIdList)
                 .build();
     }
-
+    /*
+    * Delete old user books
+    * and add new
+    * */
     public UserBookResponse updateUserWithBooks(UserBookRequest userBookRequest, Long userId) {
         log.info("Got user book update request: {}", userBookRequest);
         if (userId == null){
@@ -73,13 +76,17 @@ public class UserDataFacade {
         UserDto updatedUser = userService.updateUser(userDto);
         log.info("Updated user: {}", updatedUser);
 
+        userService.getAllBooks(updatedUser.getId())
+                .forEach(book -> bookService.deleteBookById(book.getId()));
+
+        log.info("Updated userId: {} book list", updatedUser.getId());
         List<Long> bookIdList = userBookRequest.getBookRequests()
                 .stream()
                 .filter(Objects::nonNull)
                 .map(bookMapper::bookRequestToBookDto)
                 .peek(bookDto -> bookDto.setUserId(updatedUser.getId()))
                 .peek(mappedBookDto -> log.info("mapped book: {}", mappedBookDto))
-                .map(bookService::updateBook)
+                .map(bookService::createBook)
                 .peek(createdBook -> log.info("Updated book: {}", createdBook))
                 .map(BookDto::getId)
                 .toList();
