@@ -34,6 +34,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto updateBook(BookDto bookDto) {
+        log.info("Update book create request: {}", bookDto);
         Long id = bookDto.getId();
         Book toUpdate = bookMapper.bookDtoToBookEntity(bookDto);
         if (bookStore.getById(toUpdate.getId()).isEmpty()){

@@ -3,7 +3,7 @@ package com.edu.ulab.app.facade;
 import com.edu.ulab.app.dto.BookDto;
 import com.edu.ulab.app.dto.UserDto;
 import com.edu.ulab.app.entity.Book;
-import com.edu.ulab.app.exception.BadRequestException;
+import com.edu.ulab.app.exception.EntityNotFoundException;
 import com.edu.ulab.app.mapper.BookMapper;
 import com.edu.ulab.app.mapper.UserMapper;
 import com.edu.ulab.app.service.BookService;
@@ -19,7 +19,7 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class UserDataFacade {
-    private final String USERNAME_ID_NOT_SPECIFIED = "Id пользователя уже занято";
+    private final String USERNAME_ID_NOT_SPECIFIED = "Id пользователя не указано";
     private final UserService userService;
     private final BookService bookService;
     private final UserMapper userMapper;
@@ -67,7 +67,7 @@ public class UserDataFacade {
     public UserBookResponse updateUserWithBooks(UserBookRequest userBookRequest, Long userId) {
         log.info("Got user book update request: {}", userBookRequest);
         if (userId == null){
-            throw new BadRequestException(USERNAME_ID_NOT_SPECIFIED);
+            throw new EntityNotFoundException(USERNAME_ID_NOT_SPECIFIED);
         }
         UserDto userDto = userMapper.userRequestToUserDto(userBookRequest.getUserRequest());
         userDto.setId(userId);
@@ -101,7 +101,7 @@ public class UserDataFacade {
     public UserBookResponse getUserWithBooks(Long userId) {
         log.info("Got user request by id: {}", userId);
         if (userId == null){
-            throw new BadRequestException(USERNAME_ID_NOT_SPECIFIED);
+            throw new EntityNotFoundException(USERNAME_ID_NOT_SPECIFIED);
         }
 
         UserDto userById = userService.getUserById(userId);
