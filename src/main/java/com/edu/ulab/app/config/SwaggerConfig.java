@@ -1,6 +1,6 @@
 package com.edu.ulab.app.config;
 
-import com.edu.ulab.app.web.constant.SwaggerInfo;
+import com.edu.ulab.app.web.constant.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
-    @Value("${swagger-api.version}")
+    @Value("$1.0")
     private String swaggerApiVersion;
 
     @Bean
