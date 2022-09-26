@@ -1,11 +1,13 @@
 package com.edu.ulab.app.repository;
 
+import com.edu.ulab.app.entity.Book;
 import com.edu.ulab.app.entity.Person;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.LockModeType;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<Person, Long> {
@@ -16,7 +18,10 @@ public interface UserRepository extends CrudRepository<Person, Long> {
     User has books - book - finished
      */
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    //@Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from Person p where p.id = :id")
     Optional<Person> findByIdForUpdate(long id);
+
+    @Query("select b from Book b where b.userId = :id")
+    List<Book> findAllBooksById(long id);
 }

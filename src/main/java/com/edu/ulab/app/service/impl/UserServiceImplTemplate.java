@@ -1,6 +1,7 @@
 package com.edu.ulab.app.service.impl;
 
 import com.edu.ulab.app.dto.UserDto;
+import com.edu.ulab.app.entity.Book;
 import com.edu.ulab.app.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -56,5 +58,10 @@ public class UserServiceImplTemplate implements UserService {
     @Override
     public void deleteUserById(Long id) {
         // реализовать недстающие методы
+    }
+
+    @Override
+    public List<Book> getAllBooksById(Long id) {
+        return null;
     }
 }
