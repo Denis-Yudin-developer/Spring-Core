@@ -3,6 +3,7 @@ package com.edu.ulab.app.facade;
 import com.edu.ulab.app.dto.BookDto;
 import com.edu.ulab.app.dto.UserDto;
 import com.edu.ulab.app.entity.Book;
+import com.edu.ulab.app.exception.NotFoundException;
 import com.edu.ulab.app.mapper.BookMapper;
 import com.edu.ulab.app.mapper.UserMapper;
 
@@ -21,13 +22,13 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class UserDataFacade {
-    private final UserServiceImpl userService;
-    private final BookServiceImpl bookService;
+    private final UserServiceImplTemplate userService;
+    private final BookServiceImplTemplate bookService;
     private final UserMapper userMapper;
     private final BookMapper bookMapper;
 
-    public UserDataFacade(UserServiceImpl userService,
-                          BookServiceImpl bookService,
+    public UserDataFacade(UserServiceImplTemplate userService,
+                          BookServiceImplTemplate bookService,
                           UserMapper userMapper,
                           BookMapper bookMapper) {
         this.userService = userService;
@@ -97,7 +98,7 @@ public class UserDataFacade {
         log.info("Request to got user by id: {}", userId);
 
         UserDto userById = userService.getUserById(userId);
-
+        log.info("Got user request: {}", userById);
         List<Long> bookIdList = userService.getAllBooksById(userId).stream()
                 .filter(Objects::nonNull)
                 .peek(filteredBookDto -> log.info("Get book: {} of the user id: {}", filteredBookDto, userId))

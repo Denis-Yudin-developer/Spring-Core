@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Book> getAllBooksById(Long id) {
-        log.info("Request to get user books by id: {}", id);
+        log.info("Request to get user books by user id: {}", id);
         List<Book> userBooks = userRepository.findAllBooksById(id);
         if(userBooks == null){
             userBooks = new ArrayList<>();
